@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard Results</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    </head>
+    <body>
+        <section class="card">
+            <h3>{{ city }} - {{ theme }}</h3>
+
+            <p class="muted">{{ summary }}</p>
+
+            {% if charts and charts|length > 0 %}
+            <div class="viz-container">
+                {% for chart in charts %}
+                    <div class="chart-card">
+                        <img src="{{ chart }}" alt="chart" class="chart-img">
+                    </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="muted">No charts available yet.</p>
+            {% endif %}
+        </section>
+    </body>
+</html>

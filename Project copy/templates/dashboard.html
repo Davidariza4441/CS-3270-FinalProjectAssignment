@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    </head>
+    <body>
+        <main class="page">
+            <section class="card">
+                <header class="card-header">
+                    <h1>Weather Analytics Dashboard</h1>
+                    <p class="muted">Hi {{ current_user.username }}! Welcome to the dashboard. Your dataset {{ dataset_name }} is ready. This is where you can show summaries and charts.</p>
+                </header>
+                <div class="actions">
+                    <form method="GET" action="{{ url_for('dashboard_results') }}" target="resultsFrame" class="form">
+                        <div class="filters-grid">
+                            <div class="filter-item">
+                                <label for="city">Select City:</label>
+                                <div class="select-wrap">
+                                    <select name="city" id="city" class="select" required>
+                                        <option value="" disabled selected>Select a City</option>
+                                        {% for c in cities %}
+                                        <option value="{{ c }}">{{ c }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="filter-item">
+                                <input type="hidden" name="theme" id="theme" value="">
+                                <div class="theme-buttons">
+                                    <button type="submit" class="btn btn-primary" onclick="document.getElementById('theme').value='temperature'">
+                                        Temperature Trends
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" onclick="document.getElementById('theme').value='rainfall'">
+                                        Rainfall Patterns
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" onclick="document.getElementById('theme').value='extreme'">
+                                        Extreme Indicators
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <iframe name="resultsFrame" class="results-frame"></iframe>
+                    <div>
+                        <form method="POST" action="{{ url_for('reset_dataset') }}" style="display:inline;">
+                            <button type="submit" class="btn btn-secondary">Upload New Dataset</button>
+                        </form>
+                        <a href="{{ url_for('logout') }}" class="btn btn-ghost">Logout</a>
+                    </div>
+                </div>
+                
+                <hr class="divider" />
+            </section>
+        </main>
+    </body>
+</html>

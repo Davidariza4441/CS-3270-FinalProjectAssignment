@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload CSV</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="page">
+    <section class="card">
+      <header class="card-header">
+        <h1>Upload Dataset</h1>
+        <p class="muted">Hi {{ current_user.username }}, please upload a CSV to run analytics.</p>
+      </header>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <div class="callout">
+        <p class="callout-title">Expected CSV columns</p>
+        <ul class="csv-list">
+          <li>Location</li>
+          <li>MinTemp</li>
+          <li>MaxTemp</li>
+          <li>Rainfall</li>
+          <li>Humidity9am</li>
+          <li>Humidity3pm</li>
+          <li>Temp9am</li>
+          <li>Temp3pm</li>
+          <li>Pressure9am</li>
+          <li>Cloud9am</li>
+          <li>RainToday</li>
+        </ul>
+      </div>
+
+      <form method="post" action="{{ url_for('upload_file') }}" enctype="multipart/form-data" class="form">
+        <div class="form-group">
+          <label>Select CSV file</label>
+          <input class="input" type="file" name="file" accept=".csv" required />
+          <div class="help muted">Only .csv files are allowed.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Upload & Import</button>
+      </form>
+
+      <div class="actions">
+        <a href="{{ url_for('logout') }}" class="btn btn-ghost">Logout</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
